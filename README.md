@@ -12,8 +12,9 @@
   <a href="https://hub.docker.com/r/elderflowa/genshin-daily"><img src="https://img.shields.io/docker/v/elderflowa/genshin-daily?label=docker&logo=docker&color=2496ED" alt="Docker Image" /></a>
   <a href="https://github.com/Elderflowa/GenshinDaily/actions/workflows/build-windows.yml"><img src="https://img.shields.io/github/actions/workflow/status/Elderflowa/GenshinDaily/build-windows.yml?label=windows%20build&logo=github" alt="Windows Build" /></a>
   <a href="https://github.com/Elderflowa/GenshinDaily/actions/workflows/build-ipa.yml"><img src="https://img.shields.io/github/actions/workflow/status/Elderflowa/GenshinDaily/build-ipa.yml?label=ipa%20build&logo=github" alt="iOS Build" /></a>
-  <img src="https://img.shields.io/github/license/Elderflowa/GenshinDaily?color=8B5CF6" alt="License" />
 </p>
+
+<p align="center"><i>Personal fan project — not affiliated with Hoyoverse / miHoYo</i></p>
 
 ---
 
@@ -117,6 +118,6 @@ npm run desktop    # Electron + Vite (live reload)
 
 ---
 
-## License
+## Disclaimer
 
-MIT — use freely, modify, share.
+This is a personal fan project for Genshin Impact. Not affiliated with, endorsed by, or connected to Hoyoverse / miHoYo / COGNOSPHERE. All game assets, names, and trademarks belong to their respective owners.
