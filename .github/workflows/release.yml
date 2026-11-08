@@ -41,26 +41,34 @@ jobs:
       - name: Download Windows artifact
         uses: actions/download-artifact@v4
         with:
-          name: GenshinDaily-Windows
+          name: TravelersGuide-Windows
           path: artifacts/windows
 
       - name: Download iOS artifact
         uses: actions/download-artifact@v4
         with:
-          name: GenshinDaily-ipa
+          name: TravelersGuide-ipa
           path: artifacts/ios
 
       - name: Verify artifacts
         run: |
           ls -la artifacts/
-          test -f artifacts/windows/GenshinDaily-Setup.exe && echo "✓ Windows installer found"
-          test -f artifacts/ios/GenshinDaily.ipa && echo "✓ iOS .ipa found"
+          test -f artifacts/windows/TravelersGuide-Setup-v*.exe && echo "✓ Windows installer found"
+          test -f artifacts/ios/TravelersGuide-v*.ipa && echo "✓ iOS .ipa found"
 
       - name: Get IPA size
         id: ipa-size
         run: |
-          SIZE=$(stat -c%s artifacts/ios/GenshinDaily.ipa)
+          IPA_FILE=$(ls artifacts/ios/TravelersGuide-v*.ipa | head -1)
+          SIZE=$(stat -c%s "$IPA_FILE")
           echo "size=$SIZE" >> $GITHUB_OUTPUT
+          echo "ipa-file=$IPA_FILE" >> $GITHUB_OUTPUT
+
+      - name: Get exe filename
+        id: exe-file
+        run: |
+          EXE_FILE=$(ls artifacts/windows/TravelersGuide-Setup-v*.exe | head -1)
+          echo "exe-file=$EXE_FILE" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -70,8 +78,8 @@ jobs:
           name: ${{ github.event.inputs.title }}
           body: ${{ github.event.inputs.notes }}
           files: |
-            artifacts/windows/GenshinDaily-Setup.exe
-            artifacts/ios/GenshinDaily.ipa
+            ${{ steps.exe-file.outputs.exe-file }}
+            ${{ steps.ipa-file.outputs.ipa-file }}
           draft: false
           prerelease: false
 
@@ -93,17 +101,17 @@ jobs:
 
           # Use jq to properly escape JSON strings
           jq -n \
-            --arg name "Genshin Daily" \
-            --arg bundleId "com.genshindaily.app" \
+            --arg name "Traveler's Guide" \
+            --arg bundleId "com.travelersguide.app" \
             --arg developer "Elderflowa" \
             --arg subtitle "Daily, weekly & monthly Genshin checklists with sync" \
             --arg iconURL "https://raw.githubusercontent.com/Elderflowa/GenshinDaily/main/build/icon.png" \
             --arg tintColor "#9d9bff" \
             --arg version "$VERSION" \
             --arg versionDate "$DATE" \
-            --arg downloadURL "https://github.com/Elderflowa/GenshinDaily/releases/download/$TAG/GenshinDaily.ipa" \
+            --arg downloadURL "https://github.com/Elderflowa/GenshinDaily/releases/download/$TAG/TravelersGuide-v$VERSION.ipa" \
             --arg size "$SIZE" \
-            --arg desc "A sleek checklist dashboard for Genshin Impact dailies, weeklies, monthlies — with live events, current banners, and PC↔phone sync.\n\nFeatures:\n• Three tabs: Today (dailies + daily bosses), Weekly & Monthly, Events & Banners\n• Auto-reset at 04:00 server time (Europe / America / Asia)\n• Timers for Serenitea Pot plants and Crystal Fly traps\n• Live events & banners from ennead.cc API\n• Material icons auto-fetched from genshin-db-api\n• PC ↔ Phone sync via local network\n• Runs on iOS via AltStore/Sideloadly" \
+            --arg desc "Traveler's Guide — A sleek checklist dashboard for Genshin Impact dailies, weeklies, monthlies — with live events, current banners, and PC↔phone sync.\n\nFeatures:\n• Three tabs: Today (dailies + daily bosses), Weekly & Monthly, Events & Banners\n• Auto-reset at 04:00 server time (Europe / America / Asia)\n• Timers for Serenitea Pot plants and Crystal Fly traps\n• Live events & banners from ennead.cc API\n• Material icons auto-fetched from genshin-db-api\n• PC ↔ Phone sync via local network\n• Runs on iOS via AltStore/Sideloadly" \
             '{
               name: $name,
               apps: [{

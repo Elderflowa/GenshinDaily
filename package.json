@@ -1,5 +1,5 @@
 {
-  "name": "genshin-daily",
+  "name": "travelers-guide",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -21,11 +21,11 @@
     "vite": "^5.4.11"
   },
   "main": "electron/main.cjs",
-  "description": "Daily, weekly and monthly Genshin checklists",
-  "author": "Genshin Daily",
+  "description": "Daily, weekly and monthly Genshin checklists with sync",
+  "author": "Elderflowa",
   "build": {
-    "appId": "com.genshindaily.desktop",
-    "productName": "Genshin Daily",
+    "appId": "com.travelersguide.desktop",
+    "productName": "Traveler's Guide",
     "directories": {
       "output": "release",
       "buildResources": "build"
@@ -44,7 +44,7 @@
     "nsis": {
       "oneClick": true,
       "perMachine": false,
-      "artifactName": "GenshinDaily-Setup.${ext}"
+      "artifactName": "TravelersGuide-Setup.${ext}"
     }
   }
 }

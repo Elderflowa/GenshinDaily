@@ -1,6 +1,6 @@
 {
-  "appId": "com.genshindaily.app",
-  "appName": "Genshin Daily",
+  "appId": "com.travelersguide.app",
+  "appName": "Traveler's Guide",
   "webDir": "dist",
   "backgroundColor": "#09090f",
   "ios": { "contentInset": "never" },

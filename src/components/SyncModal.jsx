@@ -69,7 +69,6 @@ export default function SyncModal({ isOpen, onClose }) {
           </span>
           {lastSyncTime && <span className="last-sync">(Last sync: {lastSyncTime})</span>}
         </div>
-        <p className={`sync-status-detail${status.ok ? ' ok' : ''}`}>{statusText}</p>
         <button type="button" className="btn-sync-now" onClick={handleSyncNow} disabled={syncing}>
           {syncing ? 'Syncing…' : 'Sync Now'}
         </button>

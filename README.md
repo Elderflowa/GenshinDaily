@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Elderflowa/GenshinDaily/main/build/icon.png" alt="Genshin Daily Icon" width="72" height="72" />
+  <img src="https://raw.githubusercontent.com/Elderflowa/GenshinDaily/main/build/icon.png" alt="Traveler's Guide Icon" width="72" height="72" />
 </p>
 
-<h1 align="center">Genshin Daily</h1>
+<h1 align="center">Traveler's Guide</h1>
 
 <p align="center">
   <b>A sleek checklist dashboard for Genshin Impact dailies, weeklies, monthlies — with live events, current banners, and PC↔phone sync.</b>
@@ -58,8 +58,8 @@ docker compose up -d
 
 | Platform | How to get it |
 |----------|---------------|
-| **Windows** | Actions → **Build Windows** → Run workflow → Download `GenshinDaily-Windows.zip` → run `GenshinDaily-Setup.exe` |
-| **iOS (.ipa)** | Actions → **Build IPA** → Run workflow → Download `GenshinDaily-ipa.zip` → install via **AltStore** or **Sideloadly** |
+| **Windows** | Actions → **Build Windows** → Run workflow → Download `TravelersGuide-Windows.zip` → run `TravelersGuide-Setup-v<version>.exe` |
+| **iOS (.ipa)** | Actions → **Build IPA** → Run workflow → Download `TravelersGuide-ipa.zip` → install via **AltStore** or **Sideloadly** |
 
 > The Windows app runs the sync server internally and minimizes to tray — your phone stays synced even when the window is closed.
 
@@ -80,7 +80,7 @@ The `source.json` is auto-generated on each release with the correct version, IP
 ## Sync (PC ↔ Phone)
 
 - Docker: state lives in a named volume (`genshin-data`)
-- Windows app: state at `%APPDATA%\Genshin Daily\state.json`
+- Windows app: state at `%APPDATA%\Traveler's Guide\state.json`
 - Phone app polls every 5s + on wake/online; newest timestamp per key wins
 - Default phone target: `http://192.168.0.50:3050` — change in **Events & Banners → Sync**
 

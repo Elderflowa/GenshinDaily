@@ -36,10 +36,10 @@ function createWindow() {
 
 function createTray() {
   tray = new Tray(nativeImage.createFromPath(path.join(__dirname, 'tray.png')).resize({ width: 16, height: 16 }))
-  tray.setToolTip('Genshin Daily')
+  tray.setToolTip("Traveler's Guide")
   tray.on('click', showWindow)
   const menu = () => Menu.buildFromTemplate([
-    { label: 'Open Genshin Daily', click: showWindow },
+    { label: "Open Traveler's Guide", click: showWindow },
     { label: 'Start with Windows', type: 'checkbox', checked: autoStart(), click: item => { setAutoStart(item.checked); tray.setContextMenu(menu()) } },
     { type: 'separator' },
     { label: 'Quit', click: () => { quitting = true; app.quit() } },
@@ -48,7 +48,13 @@ function createTray() {
 }
 
 ipcMain.handle('autostart:get', autoStart)
-ipcMain.handle('autostart:set', (_e, on) => { setAutoStart(Boolean(on)); return autoStart() })
+ipcMain.handle('autostart:set', async (_e, on) => {
+  const enabled = Boolean(on)
+  setAutoStart(enabled)
+  // Small delay to ensure Windows registry is updated before reading back
+  await new Promise(r => setTimeout(r, 100))
+  return autoStart()
+})
 
 app.whenReady().then(async () => {
   try {
@@ -59,7 +65,7 @@ app.whenReady().then(async () => {
       dataFile: path.join(app.getPath('userData'), 'state.json'),
     })
   } catch (e) {
-    dialog.showErrorBox('Genshin Daily', `Could not start on port ${PORT}. Is another copy (or Docker) already using it?\n\n${e.message}`)
+    dialog.showErrorBox("Traveler's Guide", `Could not start on port ${PORT}. Is another copy (or Docker) already using it?\n\n${e.message}`)
     quitting = true
     return app.quit()
   }
