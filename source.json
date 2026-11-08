@@ -8,11 +8,11 @@
       "subtitle": "Daily, weekly & monthly Genshin checklists with sync",
       "iconURL": "https://raw.githubusercontent.com/Elderflowa/GenshinDaily/main/build/icon.png",
       "tintColor": "#9d9bff",
-      "version": "1.2.0",
-      "versionDate": "2026-11-08T18:09:37Z",
-      "downloadURL": "https://github.com/Elderflowa/GenshinDaily/releases/download/v1.2.0/GenshinDaily.ipa",
+      "version": ",1,2,1",
+      "versionDate": "2026-11-08T18:17:37Z",
+      "downloadURL": "https://github.com/Elderflowa/GenshinDaily/releases/download/v,1,2,1/GenshinDaily.ipa",
       "localizedDescription": "A sleek checklist dashboard for Genshin Impact dailies, weeklies, monthlies — with live events, current banners, and PC↔phone sync.\\n\\nFeatures:\\n• Three tabs: Today (dailies + daily bosses), Weekly & Monthly, Events & Banners\\n• Auto-reset at 04:00 server time (Europe / America / Asia)\\n• Timers for Serenitea Pot plants and Crystal Fly traps\\n• Live events & banners from ennead.cc API\\n• Material icons auto-fetched from genshin-db-api\\n• PC ↔ Phone sync via local network\\n• Runs on iOS via AltStore/Sideloadly",
-      "size": 0
+      "size": 1066284
     }
   ]
 }
