@@ -1,17 +1,19 @@
 import { useEffect, useState, useSyncExternalStore } from 'react'
-import { isApp, getServer, setServer, subscribe, getStatus } from '../sync.js'
+import { isApp, getServer, setServer, subscribe, getStatus, sync } from '../sync.js'
 
 export default function SyncModal({ isOpen, onClose }) {
   const status = useSyncExternalStore(subscribe, getStatus)
   const [address, setAddress] = useState(getServer)
   const [saving, setSaving] = useState(false)
+  const [syncing, setSyncing] = useState(false)
   const desktop = window.desktop
   const [autoStart, setAutoStartState] = useState(false)
   const [autoStartLoading, setAutoStartLoading] = useState(false)
+  const [autoStartSupported, setAutoStartSupported] = useState(true)
 
   useEffect(() => {
     if (isOpen && desktop) {
-      desktop.getAutoStart().then(setAutoStartState)
+      desktop.getAutoStart().then(setAutoStartState).catch(() => setAutoStartSupported(false))
     }
   }, [isOpen, desktop])
 
@@ -33,21 +35,44 @@ export default function SyncModal({ isOpen, onClose }) {
       setAutoStartState(result)
     } catch (err) {
       console.error('Failed to set auto-start:', err)
+      setAutoStartSupported(false)
       setAutoStartState(autoStart) // revert on error
     } finally {
       setAutoStartLoading(false)
     }
   }
 
+  const handleSyncNow = async () => {
+    setSyncing(true)
+    try {
+      await sync()
+    } finally {
+      setSyncing(false)
+    }
+  }
+
+  const isConnected = status.ok === true
+  const lastSyncTime = status.ok && status.at
+    ? new Date(status.at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+    : null
+
   const statusText = status.ok === null ? 'Connecting…'
-    : status.ok ? `Synced with your PC · ${new Date(status.at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}`
+    : status.ok ? `Synced with your PC · ${lastSyncTime}`
     : "Can't reach the server. Using this device's data until it's back."
 
   return (
     <form onSubmit={handleSaveServer}>
-      <div className="sync-section">
-        <h3>Sync Status</h3>
-        <p className={`sync-status${status.ok ? ' ok' : ''}`}>{statusText}</p>
+      <div className="sync-section sync-status-header">
+        <div className="connection-status">
+          <span className={`status-badge${isConnected ? ' connected' : ' disconnected'}`}>
+            {isConnected ? 'Connected' : 'Not Connected'}
+          </span>
+          {lastSyncTime && <span className="last-sync">(Last sync: {lastSyncTime})</span>}
+        </div>
+        <p className={`sync-status-detail${status.ok ? ' ok' : ''}`}>{statusText}</p>
+        <button type="button" className="btn-sync-now" onClick={handleSyncNow} disabled={syncing}>
+          {syncing ? 'Syncing…' : 'Sync Now'}
+        </button>
       </div>
 
       {isApp && (
@@ -76,16 +101,25 @@ export default function SyncModal({ isOpen, onClose }) {
       {desktop && (
         <div className="sync-section">
           <h3>Windows</h3>
-          <label className="sync-check">
-            <input
-              type="checkbox"
-              checked={autoStart}
-              onChange={e => handleAutoStartChange(e.target.checked)}
-              disabled={autoStartLoading}
-            />
-            <span>Start with Windows (minimized to tray)</span>
-          </label>
-          {autoStartLoading && <span className="sync-spinner" aria-hidden="true">⟳</span>}
+          {autoStartSupported ? (
+            <label className="sync-check">
+              <input
+                type="checkbox"
+                checked={autoStart}
+                onChange={e => handleAutoStartChange(e.target.checked)}
+                disabled={autoStartLoading}
+              />
+              <span>Start with Windows (minimized to tray)</span>
+              {autoStart && <span className="auto-start-active">● Active</span>}
+            </label>
+            {autoStartLoading && <span className="sync-spinner" aria-hidden="true">⟳</span>}
+          ) : (
+            <div className="sync-unavailable">
+              <span className="unavailable-badge">Not available</span>
+              <p>Auto-start only works after installing the app via the <strong>.exe installer</strong>.</p>
+              <p className="sync-hint">In development mode, this setting cannot be modified.</p>
+            </div>
+          )}
           <p className="sync-hint">Keeps the sync server running so your phone stays updated.</p>
         </div>
       )}

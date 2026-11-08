@@ -30,9 +30,9 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .app { max-width: 1760px; margin: 0 auto; padding: 22px max(20px, env(safe-area-inset-left)) calc(48px + env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-right)) }
 
 /* ── Header ── */
-.app-header { position: relative; margin-bottom: 18px }
+.app-header { position: relative; margin-bottom: 18px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px }
 .header-gear {
-  position: absolute; top: 0; right: 0; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+  flex: none; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
   border-radius: 12px; border: 1px solid var(--border); background: var(--card); color: var(--text2);
   transition: all .13s
 }
@@ -41,7 +41,8 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .header-gear svg { display: block }
 
 @media (max-width: 700px) {
-  .header-gear { top: calc(env(safe-area-inset-top) + 8px); right: max(14px, env(safe-area-inset-right)) }
+  .app-header { flex-direction: column; align-items: stretch }
+  .header-gear { align-self: flex-end; margin-top: -56px; margin-right: 4px }
 }
 
 /* ── Hero ── */
@@ -199,6 +200,38 @@ aside .events-list, aside .banners { grid-template-columns: minmax(0, 1fr) }
 .sync-check input:disabled { opacity: .5; cursor: not-allowed }
 .sync-spinner { display: inline-block; animation: spin 1s linear infinite; color: var(--text2); margin-left: 8px; font-size: 1rem }
 @keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
+
+/* ── Sync Modal enhancements ── */
+.sync-status-header { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px }
+.connection-status { display: flex; align-items: center; gap: 10px; flex-wrap: wrap }
+.status-badge {
+  font-weight: 700; font-size: .9rem; padding: 6px 12px; border-radius: 20px;
+  background: var(--raised); border: 1px solid var(--border)
+}
+.status-badge.connected { background: rgba(var(--ok), .15); border-color: rgba(var(--ok), .4); color: rgb(var(--ok)) }
+.status-badge.disconnected { background: rgba(255, 80, 80, .15); border-color: rgba(255, 80, 80, .4); color: #ff5050 }
+.last-sync { font-size: .8rem; color: var(--text2); font-weight: 500 }
+.sync-status-detail { font-size: .8rem; color: var(--text2); margin: 0 }
+.sync-status-detail.ok { color: rgb(var(--ok)) }
+.btn-sync-now {
+  align-self: flex-start; padding: 8px 16px; border-radius: 8px; font-size: .8rem; font-weight: 500;
+  background: rgba(var(--accent), .15); color: rgb(var(--accent)); border: 1px solid rgba(var(--accent), .3)
+}
+.btn-sync-now:hover { background: rgba(var(--accent), .25) }
+.btn-sync-now:disabled { opacity: .6; cursor: not-allowed }
+
+.auto-start-active { margin-left: 8px; font-size: .7rem; font-weight: 600; color: rgb(var(--ok)); background: rgba(var(--ok), .15); padding: 2px 8px; border-radius: 10px }
+
+.sync-unavailable { display: flex; flex-direction: column; gap: 6px; padding: 12px; background: var(--raised); border: 1px solid var(--border); border-radius: 10px }
+.unavailable-badge { font-size: .7rem; font-weight: 600; color: var(--text2); background: var(--card); padding: 4px 10px; border-radius: 8px; width: fit-content }
+.sync-unavailable p { font-size: .8rem; color: var(--text2); margin: 0 }
+
+@media (max-width: 700px) {
+  .connection-status { gap: 8px }
+  .status-badge { font-size: 1rem; padding: 8px 16px }
+  .last-sync { font-size: .85rem }
+  .btn-sync-now { width: 100%; text-align: center }
+}
 
 /* Phone: safe areas, bottom tab bar, big touch targets. */
 @media (max-width: 700px) {
