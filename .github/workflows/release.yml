@@ -109,17 +109,9 @@ jobs:
           VERSION="${VERSION#v}"
           DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           SIZE="${SIZE}"
-          DESC="Traveler's Guide — A sleek checklist dashboard for Genshin Impact dailies, weeklies, monthlies — with live events, current banners, and PC↔phone sync.
+          DOWNLOAD_URL="https://github.com/Elderflowa/GenshinDaily/releases/download/$TAG/TravelersGuide-v$VERSION.ipa"
 
-Features:
-• Three tabs: Today (dailies + daily bosses), Weekly & Monthly, Events & Banners
-• Auto-reset at 04:00 server time (Europe / America / Asia)
-• Timers for Serenitea Pot plants and Crystal Fly traps
-• Live events & banners from ennead.cc API
-• Material icons auto-fetched from genshin-db-api
-• PC ↔ Phone sync via local network
-• Runs on iOS via AltStore/Sideloadly"
-
+          # Build description with jq (avoids YAML multiline string issues)
           jq -n \
             --arg name "Traveler's Guide" \
             --arg bundleId "com.travelersguide.app" \
@@ -129,9 +121,9 @@ Features:
             --arg tintColor "#9d9bff" \
             --arg version "$VERSION" \
             --arg versionDate "$DATE" \
-            --arg downloadURL "https://github.com/Elderflowa/GenshinDaily/releases/download/$TAG/TravelersGuide-v$VERSION.ipa" \
+            --arg downloadURL "$DOWNLOAD_URL" \
             --arg size "$SIZE" \
-            --arg desc "$DESC" \
+            --arg desc "Traveler's Guide — A sleek checklist dashboard for Genshin Impact dailies, weeklies, monthlies — with live events, current banners, and PC↔phone sync.\n\nFeatures:\n• Three tabs: Today (dailies + daily bosses), Weekly & Monthly, Events & Banners\n• Auto-reset at 04:00 server time (Europe / America / Asia)\n• Timers for Serenitea Pot plants and Crystal Fly traps\n• Live events & banners from ennead.cc API\n• Material icons auto-fetched from genshin-db-api\n• PC ↔ Phone sync via local network\n• Runs on iOS via AltStore/Sideloadly" \
             '{
               name: $name,
               apps: [{
