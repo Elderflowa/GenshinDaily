@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#09090f"/>
+      <stop offset="50%" stop-color="#12121b"/>
+      <stop offset="100%" stop-color="#09090f"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8f8dff"/>
+      <stop offset="100%" stop-color="#d2c4ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg)"/>
+  <!-- Header -->
+  <text x="40" y="60" font-family="Poppins, sans-serif" font-size="28" font-weight="600" fill="url(#accent)">Monday, November 8</text>
+  <text x="40" y="95" font-family="Poppins, sans-serif" font-size="14" fill="#8c8ca6">⏱ Resets in 14h 32m  •  12/18 done today</text>
+  <!-- Tabs -->
+  <rect x="40" y="120" width="1200" height="40" rx="8" fill="#12121b" stroke="#ffffff12" stroke-width="1"/>
+  <rect x="44" y="124" width="180" height="32" rx="6" fill="#9d9bff26" stroke="#9d9bff73" stroke-width="1"/>
+  <text x="134" y="146" font-family="Poppins, sans-serif" font-size="13" font-weight="500" fill="#fff" text-anchor="middle">Today 12/18</text>
+  <text x="350" y="146" font-family="Poppins, sans-serif" font-size="13" font-weight="500" fill="#8c8ca6">Weekly & Monthly 8/14</text>
+  <text x="1180" y="146" font-family="Poppins, sans-serif" font-size="13" font-weight="500" fill="#8c8ca6">Events & Banners</text>
+  <!-- Left column -->
+  <rect x="40" y="180" width="620" height="500" rx="14" fill="#12121b" stroke="#ffffff12" stroke-width="1"/>
+  <text x="60" y="210" font-family="Poppins, sans-serif" font-size="11" font-weight="600" letter-spacing="1.5" text-transform="uppercase" fill="#8c8ca6">Daily</text>
+  <text x="580" y="210" font-family="Poppins, sans-serif" font-size="11" font-weight="600" fill="#3ed8a0">6/7</text>
+  <!-- Task rows -->
+  <g font-family="Poppins, sans-serif" font-size="14">
+    <rect x="55" y="225" width="590" height="56" rx="10" fill="#181824" stroke="#ffffff12" stroke-width="1"/>
+    <circle cx="85" cy="253" r="18" fill="#3ed8a0"/>
+    <text x="85" y="258" font-size="16" fill="#04130c" text-anchor="middle">✓</text>
+    <text x="120" y="248" font-size="14" font-weight="500" fill="#fff">Daily Commissions</text>
+    <text x="120" y="268" font-size="12" fill="#8c8ca6">×4</text>
+
+    <rect x="55" y="290" width="590" height="56" rx="10" fill="#181824" stroke="#ffffff12" stroke-width="1"/>
+    <circle cx="85" cy="318" r="18" fill="#3ed8a0"/>
+    <text x="85" y="323" font-size="16" fill="#04130c" text-anchor="middle">✓</text>
+    <text x="120" y="313" font-size="14" font-weight="500" fill="#fff">Battle Pass Quests</text>
+
+    <rect x="55" y="355" width="590" height="56" rx="10" fill="#181824" stroke="#ffffff12" stroke-width="1"/>
+    <circle cx="85" cy="383" r="18" fill="#3ed8a0"/>
+    <text x="85" y="388" font-size="16" fill="#04130c" text-anchor="middle">✓</text>
+    <text x="120" y="378" font-size="14" font-weight="500" fill="#fff">Serenitea Pot Plants</text>
+    <text x="120" y="398" font-size="12" fill="#3ed8a0">⏱ 1d 4h</text>
+
+    <rect x="55" y="420" width="590" height="56" rx="10" fill="#181824" stroke="#ffffff12" stroke-width="1"/>
+    <circle cx="85" cy="448" r="18" stroke="#ffffff2e" stroke-width="2" fill="none"/>
+    <text x="120" y="443" font-size="14" font-weight="500" fill="#fff">Claim Expeditions</text>
+
+    <rect x="55" y="485" width="590" height="56" rx="10" fill="#181824" stroke="#ffffff12" stroke-width="1"/>
+    <circle cx="85" cy="513" r="18" stroke="#ffffff2e" stroke-width="2" fill="none"/>
+    <text x="120" y="508" font-size="14" font-weight="500" fill="#fff">Buy Milk, Wheat & Meat</text>
+
+    <rect x="55" y="550" width="590" height="56" rx="10" fill="#181824" stroke="#ffffff12" stroke-width="1"/>
+    <circle cx="85" cy="578" r="18" stroke="#ffffff2e" stroke-width="2" fill="none"/>
+    <text x="120" y="573" font-size="14" font-weight="500" fill="#fff">Sign in to Hoyolab</text>
+  </g>
+  <!-- Right column top -->
+  <rect x="680" y="180" width="560" height="240" rx="14" fill="#12121b" stroke="#ffffff12" stroke-width="1"/>
+  <text x="700" y="210" font-family="Poppins, sans-serif" font-size="11" font-weight="600" letter-spacing="1.5" text-transform="uppercase" fill="#8c8ca6">Daily Bosses</text>
+  <text x="1180" y="210" font-family="Poppins, sans-serif" font-size="11" font-weight="600" fill="#3ed8a0" text-anchor="end">3/6</text>
+  <g font-family="Poppins, sans-serif" font-size="13">
+    <rect x="695" y="225" width="530" height="48" rx="10" fill="#181824" stroke="#ffffff12" stroke-width="1"/>
+    <circle cx="725" cy="249" r="14" fill="#3ed8a0"/>
+    <text x="725" y="253" font-size="13" fill="#04130c" text-anchor="middle">✓</text>
+    <text x="755" y="245" font-size="13" font-weight="500" fill="#fff">Churldric</text>
+    <text x="755" y="263" font-size="11" fill="#8c8ca6">North · Hilichurl Scrolls</text>
+
+    <rect x="695" y="280" width="530" height="48" rx="10" fill="#181824" stroke="#ffffff12" stroke-width="1"/>
+    <circle cx="725" cy="304" r="14" stroke="#ffffff2e" stroke-width="2" fill="none"/>
+    <text x="755" y="300" font-size="13" font-weight="500" fill="#fff">2x Manta Ray</text>
+    <text x="755" y="318" font-size="11" fill="#8c8ca6">In Water · Transoceanic Pearls</text>
+
+    <rect x="695" y="335" width="530" height="48" rx="10" fill="#181824" stroke="#ffffff12" stroke-width="1"/>
+    <circle cx="725" cy="359" r="14" stroke="#ffffff2e" stroke-width="2" fill="none"/>
+    <text x="755" y="355" font-size="13" font-weight="500" fill="#fff">Azhdaha</text>
+    <text x="755" y="373" font-size="11" fill="#8c8ca6">Mt. Hulao · Weekly Boss</text>
+  </g>
+  <!-- Right column bottom - Events & Banners -->
+  <rect x="680" y="440" width="560" height="240" rx="14" fill="#12121b" stroke="#ffffff12" stroke-width="1"/>
+  <text x="700" y="470" font-family="Poppins, sans-serif" font-size="11" font-weight="600" letter-spacing="1.5" text-transform="uppercase" fill="#8c8ca6">Current Banners</text>
+  <g font-family="Poppins, sans-serif" font-size="13">
+    <rect x="695" y="485" width="530" height="80" rx="10" fill="#1a1a2e" stroke="#ffc45766" stroke-width="1"/>
+    <rect x="705" y="495" width="60" height="60" rx="8" fill="#ffc45733" stroke="#ffc457" stroke-width="1"/>
+    <text x="785" y="515" font-size="13" font-weight="600" fill="#ffc457">Mavuika</text>
+    <text x="785" y="535" font-size="11" fill="#8c8ca6">★★★★★ Pyro</text>
+    <text x="785" y="552" font-size="10" fill="#8c8ca6">5d 12h left</text>
+    <circle cx="1190" cy="525" r="18" fill="#ffc45733" stroke="#ffc45766" stroke-width="1"/>
+    <text x="1190" y="529" font-size="12" fill="#ffc457" text-anchor="middle">+2</text>
+
+    <rect x="695" y="575" width="530" height="80" rx="10" fill="#1a1a2e" stroke="#b08cff66" stroke-width="1"/>
+    <rect x="705" y="585" width="60" height="60" rx="8" fill="#b08cff33" stroke="#b08cff" stroke-width="1"/>
+    <text x="785" y="605" font-size="13" font-weight="600" fill="#b08cff">Citlali</text>
+    <text x="785" y="625" font-size="11" fill="#8c8ca6">★★★★★ Cryo</text>
+    <text x="785" y="642" font-size="10" fill="#8c8ca6">5d 12h left</text>
+  </g>
+</svg>
