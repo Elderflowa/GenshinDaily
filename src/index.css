@@ -29,6 +29,21 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
 .app { max-width: 1760px; margin: 0 auto; padding: 22px max(20px, env(safe-area-inset-left)) calc(48px + env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-right)) }
 
+/* ── Header ── */
+.app-header { position: relative; margin-bottom: 18px }
+.header-gear {
+  position: absolute; top: 0; right: 0; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+  border-radius: 12px; border: 1px solid var(--border); background: var(--card); color: var(--text2);
+  transition: all .13s
+}
+.header-gear:hover { border-color: var(--borderlt); color: var(--text); background: var(--raised) }
+.header-gear:active { transform: scale(.96) }
+.header-gear svg { display: block }
+
+@media (max-width: 700px) {
+  .header-gear { top: calc(env(safe-area-inset-top) + 8px); right: max(14px, env(safe-area-inset-right)) }
+}
+
 /* ── Hero ── */
 .hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 18px }
 .hero-day { display: flex; flex-direction: column-reverse }
@@ -142,6 +157,48 @@ aside .events-list, aside .banners { grid-template-columns: minmax(0, 1fr) }
 .banner-item-sub { font-size: .66rem; color: var(--text2) }
 .banner .link-btn { display: block; margin: 3px 0 0 auto }
 .banner-timer { margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--border); font-size: .66rem; color: var(--text2) }
+
+/* ── Modal ── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center;
+  background: rgba(0, 0, 0, .6); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  animation: fadeIn .15s ease
+}
+.modal-content {
+  width: 92%; max-width: 420px; max-height: 85vh; overflow-y: auto;
+  background: var(--card); border: 1px solid var(--border); border-radius: 16px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, .4);
+  animation: slideUp .2s ease
+}
+.modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border) }
+.modal-header h2 { font-size: 1rem; font-weight: 600 }
+.modal-close { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 1rem; color: var(--text2); background: none; border: none }
+.modal-close:hover { background: var(--raised); color: var(--text) }
+.modal-body { padding: 16px 20px 20px }
+.modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px }
+
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(16px) } to { opacity: 1; transform: translateY(0) } }
+
+/* ── Sync Modal Sections ── */
+.sync-section { margin-bottom: 20px }
+.sync-section h3 { font-size: .68rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--text2); margin-bottom: 10px }
+.sync-status { font-size: .85rem; color: var(--text2); line-height: 1.5 }
+.sync-status.ok { color: rgb(var(--ok)) }
+.sync-form { display: flex; gap: 8px }
+.sync-form input { flex: 1; min-width: 0; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border); background: var(--raised); color: var(--text); font: inherit; font-size: 16px }
+.sync-form input:disabled { opacity: .6 }
+.btn-primary { padding: 12px 20px; border-radius: 10px; background: rgba(var(--accent), .2); color: rgb(var(--accent)); font-weight: 500; border: 1px solid rgba(var(--accent), .3) }
+.btn-primary:hover { background: rgba(var(--accent), .3) }
+.btn-primary:disabled { opacity: .6; cursor: not-allowed }
+.btn-secondary { padding: 12px 20px; border-radius: 10px; background: var(--raised); color: var(--text); font-weight: 500; border: 1px solid var(--border) }
+.btn-secondary:hover { background: var(--card); border-color: var(--borderlt) }
+.sync-hint { margin-top: 6px; font-size: .7rem; color: var(--text2); line-height: 1.4 }
+.sync-check { display: flex; align-items: center; gap: 12px; cursor: pointer; font-size: .9rem }
+.sync-check input { width: 20px; height: 20px; accent-color: rgb(var(--accent)) }
+.sync-check input:disabled { opacity: .5; cursor: not-allowed }
+.sync-spinner { display: inline-block; animation: spin 1s linear infinite; color: var(--text2); margin-left: 8px; font-size: 1rem }
+@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
 
 /* Phone: safe areas, bottom tab bar, big touch targets. */
 @media (max-width: 700px) {
