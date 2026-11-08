@@ -35,6 +35,8 @@ jobs:
     name: Create Release
     needs: [build-windows, build-ipa]
     runs-on: ubuntu-latest
+    outputs:
+      ipa-size: ${{ steps.ipa-size.outputs.size }}
     steps:
       - name: Download Windows artifact
         uses: actions/download-artifact@v4
@@ -87,7 +89,7 @@ jobs:
           TAG="${{ github.event.inputs.tag }}"
           VERSION="${TAG#v}"
           DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          SIZE="${{ needs.create-release.outputs.size || 0 }}"
+          SIZE="${{ needs.create-release.outputs.ipa-size || 0 }}"
 
           # Use jq to properly escape JSON strings
           jq -n \
