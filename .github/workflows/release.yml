@@ -37,6 +37,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       ipa-size: ${{ steps.ipa-size.outputs.size }}
+      ipa-filename: ${{ steps.ipa-file.outputs.filename }}
+      exe-filename: ${{ steps.exe-file.outputs.filename }}
     steps:
       - name: Download Windows artifact
         uses: actions/download-artifact@v4
@@ -53,22 +55,28 @@ jobs:
       - name: Verify artifacts
         run: |
           ls -la artifacts/
-          test -f artifacts/windows/TravelersGuide-Setup-v*.exe && echo "✓ Windows installer found"
-          test -f artifacts/ios/TravelersGuide-v*.ipa && echo "✓ iOS .ipa found"
+          EXE_COUNT=$(find artifacts/windows -name 'TravelersGuide-Setup-v*.exe' -type f | wc -l)
+          IPA_COUNT=$(find artifacts/ios -name 'TravelersGuide-v*.ipa' -type f | wc -l)
+          if [ "$EXE_COUNT" -eq 0 ]; then echo "✗ Windows installer not found"; exit 1; fi
+          if [ "$IPA_COUNT" -eq 0 ]; then echo "✗ iOS .ipa not found"; exit 1; fi
+          echo "✓ Windows installer found"
+          echo "✓ iOS .ipa found"
 
       - name: Get IPA size
         id: ipa-size
         run: |
-          IPA_FILE=$(ls artifacts/ios/TravelersGuide-v*.ipa | head -1)
+          IPA_FILE=$(find artifacts/ios -name 'TravelersGuide-v*.ipa' -type f | head -1)
           SIZE=$(stat -c%s "$IPA_FILE")
+          FILENAME=$(basename "$IPA_FILE")
           echo "size=$SIZE" >> $GITHUB_OUTPUT
-          echo "ipa-file=$IPA_FILE" >> $GITHUB_OUTPUT
+          echo "filename=$FILENAME" >> $GITHUB_OUTPUT
 
       - name: Get exe filename
         id: exe-file
         run: |
-          EXE_FILE=$(ls artifacts/windows/TravelersGuide-Setup-v*.exe | head -1)
-          echo "exe-file=$EXE_FILE" >> $GITHUB_OUTPUT
+          EXE_FILE=$(find artifacts/windows -name 'TravelersGuide-Setup-v*.exe' -type f | head -1)
+          FILENAME=$(basename "$EXE_FILE")
+          echo "filename=$FILENAME" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -78,8 +86,8 @@ jobs:
           name: ${{ github.event.inputs.title }}
           body: ${{ github.event.inputs.notes }}
           files: |
-            ${{ steps.exe-file.outputs.exe-file }}
-            ${{ steps.ipa-file.outputs.ipa-file }}
+            artifacts/windows/${{ steps.exe-file.outputs.filename }}
+            artifacts/ios/${{ steps.ipa-file.outputs.filename }}
           draft: false
           prerelease: false
 
@@ -99,6 +107,18 @@ jobs:
           DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           SIZE="${{ needs.create-release.outputs.ipa-size || 0 }}"
 
+          # Build description with actual newlines (not \n escapes)
+          DESC="Traveler's Guide — A sleek checklist dashboard for Genshin Impact dailies, weeklies, monthlies — with live events, current banners, and PC↔phone sync.
+
+Features:
+• Three tabs: Today (dailies + daily bosses), Weekly & Monthly, Events & Banners
+• Auto-reset at 04:00 server time (Europe / America / Asia)
+• Timers for Serenitea Pot plants and Crystal Fly traps
+• Live events & banners from ennead.cc API
+• Material icons auto-fetched from genshin-db-api
+• PC ↔ Phone sync via local network
+• Runs on iOS via AltStore/Sideloadly"
+
           # Use jq to properly escape JSON strings
           jq -n \
             --arg name "Traveler's Guide" \
@@ -111,7 +131,7 @@ jobs:
             --arg versionDate "$DATE" \
             --arg downloadURL "https://github.com/Elderflowa/GenshinDaily/releases/download/$TAG/TravelersGuide-v$VERSION.ipa" \
             --arg size "$SIZE" \
-            --arg desc "Traveler's Guide — A sleek checklist dashboard for Genshin Impact dailies, weeklies, monthlies — with live events, current banners, and PC↔phone sync.\n\nFeatures:\n• Three tabs: Today (dailies + daily bosses), Weekly & Monthly, Events & Banners\n• Auto-reset at 04:00 server time (Europe / America / Asia)\n• Timers for Serenitea Pot plants and Crystal Fly traps\n• Live events & banners from ennead.cc API\n• Material icons auto-fetched from genshin-db-api\n• PC ↔ Phone sync via local network\n• Runs on iOS via AltStore/Sideloadly" \
+            --arg desc "$DESC" \
             '{
               name: $name,
               apps: [{
