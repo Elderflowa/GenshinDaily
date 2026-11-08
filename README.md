@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://hub.docker.com/r/elderflowa/genshin-daily"><img src="https://img.shields.io/docker/v/elderflowa/genshin-daily?label=docker&logo=docker&color=2496ED" alt="Docker Image" /></a>
-  <a href="https://github.com/Elderflowa/GenshinDaily/actions/workflows/build-exe.yml"><img src="https://img.shields.io/github/actions/workflow/status/Elderflowa/GenshinDaily/build-exe.yml?label=windows%20build&logo=github" alt="Windows Build" /></a>
+  <a href="https://github.com/Elderflowa/GenshinDaily/actions/workflows/build-windows.yml"><img src="https://img.shields.io/github/actions/workflow/status/Elderflowa/GenshinDaily/build-windows.yml?label=windows%20build&logo=github" alt="Windows Build" /></a>
   <a href="https://github.com/Elderflowa/GenshinDaily/actions/workflows/build-ipa.yml"><img src="https://img.shields.io/github/actions/workflow/status/Elderflowa/GenshinDaily/build-ipa.yml?label=ipa%20build&logo=github" alt="iOS Build" /></a>
   <img src="https://img.shields.io/github/license/Elderflowa/GenshinDaily?color=8B5CF6" alt="License" />
 </p>
@@ -57,10 +57,22 @@ docker compose up -d
 
 | Platform | How to get it |
 |----------|---------------|
-| **Windows** | Actions → **Build Windows app** → Run workflow → Download `GenshinDaily-Windows.zip` → run `GenshinDaily-Setup.exe` |
+| **Windows** | Actions → **Build Windows** → Run workflow → Download `GenshinDaily-Windows.zip` → run `GenshinDaily-Setup.exe` |
 | **iOS (.ipa)** | Actions → **Build IPA** → Run workflow → Download `GenshinDaily-ipa.zip` → install via **AltStore** or **Sideloadly** |
 
 > The Windows app runs the sync server internally and minimizes to tray — your phone stays synced even when the window is closed.
+
+---
+
+## AltStore / Feather Source
+
+Add this source in AltStore or Feather for automatic updates:
+
+```
+https://raw.githubusercontent.com/Elderflowa/GenshinDaily/main/source.json
+```
+
+The `source.json` is auto-generated on each release with the correct version, IPA size, and download URL.
 
 ---
 

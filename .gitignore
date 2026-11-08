@@ -1,4 +1,39 @@
+# Dependencies
 node_modules
+
+# Build outputs
 dist
 release
+build/*.exe
+build/*.dmg
+build/*.app
+
+# Capacitor / iOS
 ios
+android
+
+# Generated files
+source.json
+
+# IDE / Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Docker
+.dockerignore
+
+# Environment
+.env
+.env.local
+.env.*.local
