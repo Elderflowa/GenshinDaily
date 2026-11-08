@@ -1,6 +1,6 @@
-# Test AltStore source.json generation without a full release
-# Builds IPA, generates source.json, uploads both as artifacts for validation
-name: Test AltStore Source
+# Test AltStore source.json generation and update the real source.json in the repo
+# Builds IPA, generates source.json, commits it to main branch
+name: Test & Update AltStore Source
 
 on:
   workflow_dispatch:
@@ -10,9 +10,14 @@ on:
         required: true
         default: 'v1.0.0-test'
         type: string
+      commit-message:
+        description: 'Commit message'
+        required: false
+        default: 'Update AltStore source.json (test)'
+        type: string
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build-ipa:
@@ -20,11 +25,17 @@ jobs:
     uses: ./.github/workflows/build-ipa.yml
     secrets: inherit
 
-  generate-source:
-    name: Generate source.json
+  generate-and-commit:
+    name: Generate & Commit source.json
     needs: build-ipa
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout with write access
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Download IPA artifact
         uses: actions/download-artifact@v4
         with:
@@ -44,7 +55,6 @@ jobs:
           echo "IPA size: $SIZE bytes ($((SIZE / 1024 / 1024)) MB)"
 
       - name: Generate source.json
-        id: source
         run: |
           TAG="${{ github.event.inputs.test-tag }}"
           VERSION="${TAG#v}"
@@ -83,23 +93,23 @@ jobs:
           echo "Generated source.json:"
           cat source.json
 
-      - name: Validate source.json with jq
+      - name: Validate source.json
         run: |
           jq . source.json > /dev/null && echo "✓ Valid JSON"
           echo "size type: $(jq -r '.apps[0].size | type' source.json)"
           echo "size value: $(jq -r '.apps[0].size' source.json)"
-          echo "downloadURL: $(jq -r '.apps[0].downloadURL' source.json)"
 
-      - name: Upload source.json artifact
+      - name: Commit and push source.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add source.json
+          git commit -m "${{ github.event.inputs.commit-message }} for ${{ github.event.inputs.test-tag }}" || echo "No changes to commit"
+          git push
+
+      - name: Upload source.json artifact (for verification)
         uses: actions/upload-artifact@v4
         with:
           name: AltStore-source-test
           path: source.json
-          retention-days: 1
-
-      - name: Upload IPA artifact (for convenience)
-        uses: actions/upload-artifact@v4
-        with:
-          name: GenshinDaily-ipa-test
-          path: artifacts/ios/GenshinDaily.ipa
           retention-days: 1
