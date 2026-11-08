@@ -1,0 +1,55 @@
+# Create a GitHub Release with the Windows installer and iOS .ipa
+# Run this AFTER "Build Windows app" and "Build IPA" have completed successfully.
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g., v1.0.0)'
+        required: true
+        type: string
+      title:
+        description: 'Release title'
+        required: true
+        type: string
+      notes:
+        description: 'Release notes (markdown)'
+        required: false
+        type: string
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: GenshinDaily-Windows
+          path: artifacts/windows
+
+      - name: Download iOS artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: GenshinDaily-ipa
+          path: artifacts/ios
+
+      - name: Verify artifacts
+        run: |
+          ls -la artifacts/
+          test -f artifacts/windows/GenshinDaily-Setup.exe && echo "Windows installer found"
+          test -f artifacts/ios/GenshinDaily.ipa && echo "iOS .ipa found"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag }}
+          name: ${{ github.event.inputs.title }}
+          body: ${{ github.event.inputs.notes }}
+          files: |
+            artifacts/windows/GenshinDaily-Setup.exe
+            artifacts/ios/GenshinDaily.ipa
+          draft: false
+          prerelease: false
