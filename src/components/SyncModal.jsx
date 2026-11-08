@@ -102,17 +102,19 @@ export default function SyncModal({ isOpen, onClose }) {
         <div className="sync-section">
           <h3>Windows</h3>
           {autoStartSupported ? (
-            <label className="sync-check">
-              <input
-                type="checkbox"
-                checked={autoStart}
-                onChange={e => handleAutoStartChange(e.target.checked)}
-                disabled={autoStartLoading}
-              />
-              <span>Start with Windows (minimized to tray)</span>
-              {autoStart && <span className="auto-start-active">● Active</span>}
-            </label>
-            {autoStartLoading && <span className="sync-spinner" aria-hidden="true">⟳</span>}
+            <>
+              <label className="sync-check">
+                <input
+                  type="checkbox"
+                  checked={autoStart}
+                  onChange={e => handleAutoStartChange(e.target.checked)}
+                  disabled={autoStartLoading}
+                />
+                <span>Start with Windows (minimized to tray)</span>
+                {autoStart && <span className="auto-start-active">● Active</span>}
+                {autoStartLoading && <span className="sync-spinner" aria-hidden="true">⟳</span>}
+              </label>
+            </>
           ) : (
             <div className="sync-unavailable">
               <span className="unavailable-badge">Not available</span>
