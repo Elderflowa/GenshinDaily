@@ -1,13 +1,14 @@
-# Build recipe for GitHub Actions. In your repo, create the file .github/workflows/build-exe.yml and paste this whole file into it.
-# Builds the Windows installer (GenshinDaily-Setup.exe).
-# Run it from the Actions tab: Build Windows app -> Run workflow.
-name: Build Windows app
+# Build Windows installer (GenshinDaily-Setup.exe)
+# Run manually from Actions tab, or triggered by release workflow
+name: Build Windows
 
 on:
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   build:
+    name: Build Windows Installer
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,7 +23,9 @@ jobs:
           npm ci
           npm run dist:win
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
           name: GenshinDaily-Windows
           path: release/GenshinDaily-Setup.exe
+          retention-days: 7

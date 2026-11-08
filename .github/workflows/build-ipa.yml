@@ -1,13 +1,14 @@
-# Build recipe for GitHub Actions. In your repo, create the file .github/workflows/build-ipa.yml and paste this whole file into it.
-# Builds an unsigned .ipa for sideloading (AltStore, Sideloadly, ...).
-# Run it from the Actions tab: Build IPA -> Run workflow.
+# Build iOS .ipa for sideloading (AltStore, Sideloadly)
+# Run manually from Actions tab, or triggered by release workflow
 name: Build IPA
 
 on:
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   build:
+    name: Build iOS IPA
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
@@ -51,7 +52,9 @@ jobs:
           cp -R "$RUNNER_TEMP/App.xcarchive/Products/Applications/App.app" Payload/
           zip -qr GenshinDaily.ipa Payload
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
           name: GenshinDaily-ipa
           path: GenshinDaily.ipa
+          retention-days: 7
