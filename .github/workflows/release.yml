@@ -54,6 +54,12 @@ jobs:
           test -f artifacts/windows/GenshinDaily-Setup.exe && echo "✓ Windows installer found"
           test -f artifacts/ios/GenshinDaily.ipa && echo "✓ iOS .ipa found"
 
+      - name: Get IPA size
+        id: ipa-size
+        run: |
+          SIZE=$(stat -c%s artifacts/ios/GenshinDaily.ipa)
+          echo "size=$SIZE" >> $GITHUB_OUTPUT
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         id: release
@@ -81,27 +87,37 @@ jobs:
           TAG="${{ github.event.inputs.tag }}"
           VERSION="${TAG#v}"
           DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          SIZE="${{ needs.create-release.outputs.size || 0 }}"
 
-          cat > source.json << EOF
-          {
-            "name": "Genshin Daily",
-            "apps": [
-              {
-                "name": "Genshin Daily",
-                "bundleIdentifier": "com.genshindaily.app",
-                "developerName": "Elderflowa",
-                "subtitle": "Daily, weekly & monthly Genshin checklists with sync",
-                "iconURL": "https://raw.githubusercontent.com/Elderflowa/GenshinDaily/main/build/icon.png",
-                "tintColor": "#9d9bff",
-                "version": "$VERSION",
-                "versionDate": "$DATE",
-                "downloadURL": "https://github.com/Elderflowa/GenshinDaily/releases/download/$TAG/GenshinDaily.ipa",
-                "localizedDescription": "A sleek checklist dashboard for Genshin Impact dailies, weeklies, monthlies — with live events, current banners, and PC↔phone sync.\\n\\nFeatures:\\n• Three tabs: Today (dailies + daily bosses), Weekly & Monthly, Events & Banners\\n• Auto-reset at 04:00 server time (Europe / America / Asia)\\n• Timers for Serenitea Pot plants and Crystal Fly traps\\n• Live events & banners from ennead.cc API\\n• Material icons auto-fetched from genshin-db-api\\n• PC ↔ Phone sync via local network\\n• Runs on iOS via AltStore/Sideloadly",
-                "size": 0
-              }
-            ]
-          }
-          EOF
+          # Use jq to properly escape JSON strings
+          jq -n \
+            --arg name "Genshin Daily" \
+            --arg bundleId "com.genshindaily.app" \
+            --arg developer "Elderflowa" \
+            --arg subtitle "Daily, weekly & monthly Genshin checklists with sync" \
+            --arg iconURL "https://raw.githubusercontent.com/Elderflowa/GenshinDaily/main/build/icon.png" \
+            --arg tintColor "#9d9bff" \
+            --arg version "$VERSION" \
+            --arg versionDate "$DATE" \
+            --arg downloadURL "https://github.com/Elderflowa/GenshinDaily/releases/download/$TAG/GenshinDaily.ipa" \
+            --arg size "$SIZE" \
+            --arg desc "A sleek checklist dashboard for Genshin Impact dailies, weeklies, monthlies — with live events, current banners, and PC↔phone sync.\n\nFeatures:\n• Three tabs: Today (dailies + daily bosses), Weekly & Monthly, Events & Banners\n• Auto-reset at 04:00 server time (Europe / America / Asia)\n• Timers for Serenitea Pot plants and Crystal Fly traps\n• Live events & banners from ennead.cc API\n• Material icons auto-fetched from genshin-db-api\n• PC ↔ Phone sync via local network\n• Runs on iOS via AltStore/Sideloadly" \
+            '{
+              name: $name,
+              apps: [{
+                name: $name,
+                bundleIdentifier: $bundleId,
+                developerName: $developer,
+                subtitle: $subtitle,
+                iconURL: $iconURL,
+                tintColor: $tintColor,
+                version: $version,
+                versionDate: $versionDate,
+                downloadURL: $downloadURL,
+                localizedDescription: $desc,
+                size: ($size | tonumber)
+              }]
+            }' > source.json
 
           cat source.json
 
