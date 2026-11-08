@@ -1,0 +1,11 @@
+services:
+  genshin-daily:
+    build: .
+    ports:
+      - "3050:3000"   # change the left number if 3050 is taken
+    volumes:
+      - genshin-data:/data   # your synced checkmarks and timers
+    restart: unless-stopped
+
+volumes:
+  genshin-data:

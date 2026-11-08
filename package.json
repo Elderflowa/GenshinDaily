@@ -1,0 +1,50 @@
+{
+  "name": "genshin-daily",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "desktop": "vite build && electron .",
+    "dist:win": "vite build && electron-builder --win --publish never"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.6.10",
+    "@capacitor/core": "^7.6.10",
+    "@capacitor/ios": "^7.6.10",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vite": "^5.4.11"
+  },
+  "main": "electron/main.cjs",
+  "description": "Daily, weekly and monthly Genshin checklists",
+  "author": "Genshin Daily",
+  "build": {
+    "appId": "com.genshindaily.desktop",
+    "productName": "Genshin Daily",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "dist/**",
+      "electron/**",
+      "build/icon.png",
+      "server.mjs",
+      "package.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "artifactName": "GenshinDaily-Setup.${ext}"
+    }
+  }
+}

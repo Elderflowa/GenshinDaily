@@ -1,0 +1,8 @@
+{
+  "appId": "com.genshindaily.app",
+  "appName": "Genshin Daily",
+  "webDir": "dist",
+  "backgroundColor": "#09090f",
+  "ios": { "contentInset": "never" },
+  "plugins": { "CapacitorHttp": { "enabled": true } }
+}

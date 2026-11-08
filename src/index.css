@@ -1,0 +1,204 @@
+:root {
+  --bg: #09090f;
+  --card: #12121b;
+  --raised: #181824;
+  --border: rgba(255, 255, 255, .07);
+  --borderlt: rgba(255, 255, 255, .16);
+  --text: #ececf6;
+  --text2: #8c8ca6;
+  --accent: 157, 155, 255;
+  --ok: 62, 216, 160;
+  --five: 255, 196, 87;
+  --four: 176, 140, 255;
+  --scrim: rgba(9, 9, 15, .74);
+}
+
+html { background: var(--bg) }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+body {
+  font-family: 'Poppins', 'Segoe UI', sans-serif; font-size: 14px; line-height: 1.5; color: var(--text);
+  min-height: 100vh; min-height: 100dvh; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; -webkit-touch-callout: none; overscroll-behavior-y: none; background-color: var(--bg);
+  background-image:
+    radial-gradient(1000px 520px at 15% -8%, rgba(var(--accent), .13), transparent 70%),
+    radial-gradient(800px 420px at 100% 0%, rgba(80, 150, 255, .07), transparent 70%);
+  background-attachment: fixed;
+}
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; touch-action: manipulation }
+* { scrollbar-width: none }
+::-webkit-scrollbar { display: none }
+
+.app { max-width: 1760px; margin: 0 auto; padding: 22px max(20px, env(safe-area-inset-left)) calc(48px + env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-right)) }
+
+/* ── Hero ── */
+.hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 18px }
+.hero-day { display: flex; flex-direction: column-reverse }
+.eyebrow { font-size: .68rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--text2) }
+.hero h1 { font-size: 1.7rem; font-weight: 600; line-height: 1.25 }
+.grad { background: linear-gradient(90deg, #8f8dff, #d2c4ff); -webkit-background-clip: text; background-clip: text; color: transparent }
+.hero-stat { flex: none; width: 230px; text-align: right }
+.hero-count { font-size: .8rem; color: var(--text2) }
+.hero-count b { font-size: 1.35rem; font-weight: 600; color: var(--text) }
+.bar { height: 5px; margin: 6px 0; border-radius: 3px; background: var(--raised); overflow: hidden }
+.bar i { display: block; height: 100%; border-radius: 3px; background: linear-gradient(90deg, rgb(var(--accent)), rgb(var(--ok))); transition: width .25s }
+.hero-reset { font-size: .7rem; color: var(--text2) }
+
+/* ── Tabs ── */
+.tabs { display: flex; gap: 6px; margin-bottom: 16px; overflow-x: auto }
+.tab { display: flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 10px; border: 1px solid var(--border); background: var(--card); font-size: .8rem; font-weight: 500; color: var(--text2); white-space: nowrap; transition: all .13s }
+.tab:hover { color: var(--text); border-color: var(--borderlt) }
+.tab.active { color: var(--text); border-color: rgba(var(--accent), .45); background: linear-gradient(180deg, rgba(var(--accent), .16), rgba(var(--accent), .05)) }
+.tab span { font-size: .68rem; font-weight: 600; color: rgb(var(--accent)) }
+
+/* ── Layout ──
+   < 1280px (half screen): one tab at a time.
+   1280–1599px: Today / Weekly tab + side panel.
+   >= 1600px: Today, Weekly & Monthly and the side panel all at once. */
+.layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; align-items: start }
+.pane { display: none; flex-direction: column; gap: 16px; min-width: 0 }
+.pane.on { display: flex }
+.info-tab { margin-left: auto }
+@media (min-width: 1280px) {
+  .layout { grid-template-columns: minmax(0, 1fr) 340px }
+  aside.pane { display: flex; position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow-y: auto; grid-column: 2; grid-row: 1 }
+  .info-tab { display: none }
+}
+@media (min-width: 1600px) {
+  .layout { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) 340px }
+  .pane { display: flex }
+  aside.pane { grid-column: auto; grid-row: auto }
+  .tabs { display: none }
+}
+/* ── Cards & headings ── */
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px }
+.stitle { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; font-size: .68rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--text2) }
+.stitle .ok { color: rgb(var(--ok)) }
+.groups { columns: 250px; column-gap: 12px }
+.group { break-inside: avoid; margin-bottom: 14px }
+.group:last-child { margin-bottom: 0 }
+.groups.flat { columns: auto }
+.group-title { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-size: .64rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text2) }
+.group-title::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--c, var(--text2)) }
+.group-title span { margin-left: auto; font-weight: 500 }
+.reset-note { margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--border); font-size: .66rem; color: var(--text2) }
+.note { padding: 8px 0; font-size: .8rem; color: var(--text2) }
+.link-btn { font-size: .66rem; font-weight: 400; letter-spacing: 0; text-transform: none; color: rgb(var(--accent)) }
+.link-btn:hover { text-decoration: underline }
+
+/* ── Tasks ── */
+.tasks { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px }
+.flat .tasks { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) }
+.task { display: flex; align-items: center; gap: 10px; padding: 6px 10px 6px 6px; border-radius: 10px; background: var(--raised); border: 1px solid var(--border); cursor: pointer; user-select: none; -webkit-user-select: none; touch-action: manipulation; transition: border-color .13s, background .13s }
+.task:hover { border-color: var(--borderlt) }
+.task.inert { cursor: default }
+.task-icon { flex: none; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center }
+.task-icon img { width: 100%; height: 100%; object-fit: contain; padding: 2px }
+.task-icon svg { width: 26px; height: 26px; color: var(--text2) }
+.icon-letter { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-weight: 600; color: var(--text2); background: var(--card) }
+.task-text { flex: 1; min-width: 0 }
+.task-label { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: .8rem; font-weight: 500; line-height: 1.3 }
+.task-sub { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .66rem; color: var(--text2) }
+.task-check { flex: none; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1.5px solid var(--borderlt); font-size: .68rem; font-weight: 700; color: transparent; transition: all .13s }
+.task.done { background: rgba(var(--ok), .06); border-color: rgba(var(--ok), .2) }
+.task.done .task-icon, .task.done .task-text { opacity: .5 }
+.task.done .task-check { background: rgb(var(--ok)); border-color: rgb(var(--ok)); color: #04130c }
+.timer { font-weight: 600; color: rgb(var(--ok)) }
+.timer-reset { padding: 0 2px; font-size: .7rem; color: var(--text2) }
+.badge { font-size: .68rem; font-weight: 600; color: var(--text2) }
+
+/* ── Sync ── */
+.sync-status { font-size: .8rem; color: var(--text2) }
+.sync-status.ok { color: rgb(var(--ok)) }
+.sync-form { display: flex; gap: 8px; margin-top: 10px }
+.sync-form input { flex: 1; min-width: 0; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--raised); color: var(--text); font: inherit; font-size: 16px }
+.sync-check { display: flex; align-items: center; gap: 10px; margin-top: 12px; font-size: .85rem; cursor: pointer }
+.sync-check input { width: 18px; height: 18px; accent-color: rgb(var(--accent)) }
+.sync-form button { padding: 10px 18px; border-radius: 10px; background: rgba(var(--accent), .2); font-weight: 500 }
+
+/* ── Events & banners (side panel / their own tab) ── */
+.events-list, .banners { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 8px }
+aside .events-list, aside .banners { grid-template-columns: minmax(0, 1fr) }
+@media (max-width: 1279px) { aside .events-list, aside .banners { grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)) } }
+.ev-card { position: relative; display: flex; overflow: hidden; border-radius: 12px; background: var(--card); border: 1px solid var(--border) }
+.ev-img { flex: none; width: 96px; min-height: 58px; object-fit: cover }
+.ev-img-text { display: flex; align-items: center; justify-content: center; padding: 6px; text-align: center; font-size: .62rem; font-weight: 600; color: var(--text2); background: var(--raised) }
+.ev-hide { position: absolute; top: 5px; right: 5px; width: 18px; height: 18px; border-radius: 50%; font-size: .6rem; line-height: 1; color: var(--text2); background: var(--raised) }
+.ev-body { min-width: 0; padding: 7px 28px 7px 10px }
+.ev-name { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: .76rem; font-weight: 600; line-height: 1.3 }
+.ev-sub { margin-top: 1px; font-size: .66rem; color: var(--text2) }
+.ev-sub.primo { font-weight: 600; color: rgb(var(--five)) }
+
+.banner { position: relative; overflow: hidden; min-height: 60px; padding: 11px 12px; border-radius: 12px; background: var(--card); border: 1px solid var(--border) }
+.banner-art { position: absolute; inset: 0; background-size: cover; background-position: top center }
+.banner-art::after { content: ''; position: absolute; inset: 0; background: var(--scrim) }
+.banner-content { position: relative }
+.banner-name { margin-bottom: 6px; font-size: .66rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--text2) }
+.banner-items { display: flex; flex-direction: column; gap: 5px }
+.banner-item { display: flex; align-items: center; gap: 8px; padding: 4px 8px 4px 4px; border-radius: 10px; background: rgba(9, 9, 15, .7); border: 1px solid rgba(var(--four), .3) }
+.banner-item.r5 { border-color: rgba(var(--five), .4) }
+.banner-item img { flex: none; width: 34px; height: 34px; border-radius: 50%; object-fit: cover; background: var(--card); border: 1.5px solid rgba(var(--four), .5) }
+.banner-item.r5 img { border-color: rgba(var(--five), .6) }
+.banner-item-name { font-size: .8rem; font-weight: 500; color: rgb(var(--four)) }
+.banner-item.r5 .banner-item-name { color: rgb(var(--five)) }
+.banner-item-sub { font-size: .66rem; color: var(--text2) }
+.banner .link-btn { display: block; margin: 3px 0 0 auto }
+.banner-timer { margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--border); font-size: .66rem; color: var(--text2) }
+
+/* Phone: safe areas, bottom tab bar, big touch targets. */
+@media (max-width: 700px) {
+  .app { padding: calc(env(safe-area-inset-top) + 8px) max(14px, env(safe-area-inset-left)) calc(120px + env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-right)) }
+  /* Status-bar fade so scrolled content never runs under the clock / Dynamic Island */
+  body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; height: calc(env(safe-area-inset-top) + 8px); z-index: 15; pointer-events: none; background: linear-gradient(var(--bg) 60%, transparent) }
+  /* Floating liquid-glass header pill, same style as the tab bar */
+  .hero { position: sticky; top: calc(env(safe-area-inset-top) + 8px); z-index: 20; align-items: center; gap: 12px; margin: 0 0 14px; padding: 10px 18px 20px; border-radius: 32px;
+    background: rgba(48, 48, 72, .34); -webkit-backdrop-filter: blur(24px) saturate(190%); backdrop-filter: blur(24px) saturate(190%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .24), inset 0 0 0 1px rgba(255, 255, 255, .09), 0 12px 32px rgba(0, 0, 0, .5) }
+  .hero-day { flex-direction: row; align-items: baseline; gap: 10px; min-width: 0 }
+  .hero h1 { font-size: 1.3rem; line-height: 1.2 }
+  .eyebrow { font-size: .66rem; letter-spacing: .12em; white-space: nowrap }
+  .hero-stat { display: flex; align-items: center; gap: 10px; width: auto; white-space: nowrap }
+  .hero-count b { font-size: 1.2rem }
+  .hero-reset { font-size: .72rem }
+  .long { display: none }
+  .bar { position: absolute; left: 20px; right: 20px; bottom: 9px; height: 6px; margin: 0; border-radius: 3px; background: rgba(255, 255, 255, .12) }
+  .bar i { border-radius: 3px }
+
+  /* Floating liquid-glass tab bar */
+  .tabs { position: fixed; left: max(14px, env(safe-area-inset-left)); right: max(14px, env(safe-area-inset-right)); bottom: calc(env(safe-area-inset-bottom) * .45 + 8px); z-index: 10; margin: 0; gap: 2px; overflow: visible; padding: 5px; border-radius: 32px;
+    background: rgba(48, 48, 72, .34); -webkit-backdrop-filter: blur(24px) saturate(190%); backdrop-filter: blur(24px) saturate(190%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .24), inset 0 0 0 1px rgba(255, 255, 255, .09), 0 12px 32px rgba(0, 0, 0, .5) }
+  .tab { flex: 1; flex-direction: column; justify-content: center; gap: 0; min-height: 52px; padding: 6px 4px; border: none; border-radius: 26px; background: none; font-size: .72rem; line-height: 1.25; text-align: center; white-space: normal }
+  .tab.active { background: rgba(255, 255, 255, .15); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 2px 8px rgba(0, 0, 0, .25) }
+  .tab span { font-size: .72rem }
+  .info-tab { margin-left: 0 }
+
+  .card { padding: 14px 12px }
+  .stitle { margin-bottom: 12px; font-size: .78rem }
+  .group-title { margin-bottom: 8px; font-size: .74rem }
+  .group { margin-bottom: 18px }
+  .tasks { gap: 8px }
+  .task { min-height: 60px; gap: 12px; padding: 8px 14px 8px 8px; border-radius: 14px }
+  .task:active { transform: scale(.985); background: rgba(var(--accent), .1) }
+  .task-icon { width: 44px; height: 44px }
+  .task-icon svg { width: 30px; height: 30px }
+  .icon-letter { width: 38px; height: 38px; font-size: 1rem }
+  .task-label { font-size: .95rem }
+  .task-sub { font-size: .76rem }
+  .task-check { width: 34px; height: 34px; border-width: 2px; font-size: 1.1rem }
+  .badge { font-size: .8rem }
+  .timer-reset { padding: 10px; margin: -10px; font-size: 1rem }
+  .reset-note { font-size: .74rem }
+  .link-btn { padding: 8px 0; font-size: .8rem }
+
+  .events-list, .banners { grid-template-columns: minmax(0, 1fr) }
+  .ev-img { width: 108px; min-height: 68px }
+  .ev-hide { top: 6px; right: 6px; width: 30px; height: 30px; font-size: .8rem }
+  .ev-body { padding: 9px 40px 9px 12px }
+  .ev-name { font-size: .88rem }
+  .ev-sub { font-size: .74rem }
+  .banner { padding: 13px 12px }
+  .banner-name { font-size: .74rem }
+  .banner-item { gap: 10px; padding: 5px 10px 5px 5px }
+  .banner-item img { width: 42px; height: 42px }
+  .banner-item-name { font-size: .92rem }
+  .banner-item-sub, .banner-timer { font-size: .74rem }
+}
