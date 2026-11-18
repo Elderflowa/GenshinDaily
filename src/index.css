@@ -43,12 +43,7 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 
 @media (max-width: 700px) {
   .app-header { flex-direction: column; align-items: stretch }
-  .header-gear {
-    align-self: flex-end;
-    margin-top: calc(-56px + env(safe-area-inset-top));
-    margin-right: max(4px, env(safe-area-inset-right));
-    z-index: 35
-  }
+  .header-gear { display: none }
 }
 
 /* ── Hero ── */
@@ -266,6 +261,9 @@ aside .events-list, aside .banners { grid-template-columns: minmax(0, 1fr) }
   .tab.active { background: rgba(255, 255, 255, .15); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22), 0 2px 8px rgba(0, 0, 0, .25) }
   .tab span { font-size: .72rem }
   .info-tab { margin-left: 0 }
+  .settings-tab { flex: none; width: 52px; display: flex; align-items: center; justify-content: center; color: var(--text2); border-radius: 26px }
+  .settings-tab:hover { color: var(--text); background: rgba(255, 255, 255, .1) }
+  .settings-tab svg { display: block }
 
   .card { padding: 14px 12px }
   .stitle { margin-bottom: 12px; font-size: .78rem }
