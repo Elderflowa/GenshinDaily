@@ -41,6 +41,46 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
 .header-gear:active { transform: scale(.96) }
 .header-gear svg { display: block }
 
+/* Scroll progress bar - appears on scroll at top */
+.scroll-progress {
+  position: fixed;
+  top: calc(env(safe-area-inset-top) + 8px);
+  left: max(14px, env(safe-area-inset-left));
+  right: max(14px, env(safe-area-inset-right));
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: rgba(48, 48, 72, .34);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  backdrop-filter: blur(24px) saturate(190%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .24), inset 0 0 0 1px rgba(255, 255, 255, .09), 0 12px 32px rgba(0, 0, 0, .5);
+  opacity: 0;
+  transform: translateY(-100%);
+  transition: opacity .2s ease, transform .2s ease;
+  pointer-events: none;
+}
+.scroll-progress.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.scroll-progress-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, .12);
+  overflow: hidden;
+}
+.scroll-progress-bar i {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, rgb(var(--accent)), rgb(var(--ok)));
+  transition: width .25s;
+}
+
 @media (max-width: 700px) {
   .app-header { flex-direction: column; align-items: stretch }
   .header-gear {
@@ -49,6 +89,8 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
     margin-right: max(4px, env(safe-area-inset-right));
     z-index: 35
   }
+  /* Hide progress bar inside hero on mobile */
+  .hero-bar { display: none }
 }
 
 /* ── Hero ── */
