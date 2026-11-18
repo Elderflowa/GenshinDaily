@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       ipa-size: ${{ steps.ipa-size.outputs.size }}
-      ipa-filename: ${{ steps.ipa-file.outputs.filename }}
+      ipa-filename: ${{ steps.ipa-size.outputs.filename }}
       exe-filename: ${{ steps.exe-file.outputs.filename }}
     steps:
       - name: Download Windows artifact
@@ -91,7 +91,7 @@ jobs:
           body: ${{ github.event.inputs.notes }}
           files: |
             artifacts/windows/${{ steps.exe-file.outputs.filename }}
-            artifacts/ios/${{ steps.ipa-file.outputs.filename }}
+            artifacts/ios/${{ steps.ipa-size.outputs.filename }}
           draft: false
           prerelease: false
 
