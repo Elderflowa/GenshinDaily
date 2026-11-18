@@ -22,9 +22,22 @@ export default function SyncModal({ isOpen, onClose }) {
   // Listen for test notifications from other device (phone -> desktop via IPC, desktop -> phone via gd-sync)
   useEffect(() => {
     const onTest = e => {
-      if (e.detail?.testNotification) {
-        setTestModal(e.detail.testNotification)
+      let payload = null
+      if (Array.isArray(e.detail)) {
+        // sync.js sends [key] on receipt, or [key, { testNotification }] on markChanged
+        if (e.detail[1]?.testNotification) {
+          payload = e.detail[1].testNotification
+        } else if (e.detail[0] === 'gd_test_notification') {
+          // Received via sync(): read from localStorage
+          try {
+            const stored = JSON.parse(localStorage.getItem('gd_test_notification') || '{}')
+            payload = stored.testNotification
+          } catch {}
+        }
+      } else if (e.detail?.testNotification) {
+        payload = e.detail.testNotification
       }
+      if (payload) setTestModal(payload)
     }
     window.addEventListener('gd-sync', onTest)
 
