@@ -5,7 +5,6 @@ import Events from './components/Events.jsx'
 import Banners from './components/Banners.jsx'
 import Modal from './components/Modal.jsx'
 import SyncModal from './components/SyncModal.jsx'
-import ScrollProgress from './components/ScrollProgress.jsx'
 import { useCalendar, usePeriodChecks } from './hooks.js'
 import { DAILY, DAILY_BOSS_GROUPS, WEEKLY_GROUPS, MONTHLY } from './tasks.jsx'
 import { dayKey, weekKey, monthKey, progress, RESET_TIME } from './lib.js'
@@ -38,7 +37,6 @@ export default function App() {
 
   return (
     <div className="app">
-      <ScrollProgress daily={daily} dailyBosses={dailyBosses} weekly={weekly} monthly={monthly} />
       <header className="app-header">
         <Hero done={d1 + d2} total={t1 + t2} />
         <button className="header-gear" onClick={() => setSyncModalOpen(true)} aria-label="Sync settings" title="Sync settings">

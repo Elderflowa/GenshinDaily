@@ -16,7 +16,7 @@ export default function Hero({ done, total }) {
       </div>
       <div className="hero-stat">
         <div className="hero-count"><b>{done}</b>/{total}<span className="long"> done today</span></div>
-        <div className="bar hero-bar"><i style={{ width: `${total ? (done / total) * 100 : 0}%` }} /></div>
+        <div className="bar"><i style={{ width: `${total ? (done / total) * 100 : 0}%` }} /></div>
         <div className="hero-reset">⏱ <span className="long">Resets in </span>{fmtDuration(msUntilReset())}</div>
       </div>
     </section>

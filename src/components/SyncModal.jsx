@@ -79,8 +79,7 @@ export default function SyncModal({ isOpen, onClose }) {
       const payload = {
         from: isApp ? 'phone' : 'desktop',
         at: Date.now(),
-        message: 'Connection test successful!',
-        source: isApp ? 'phone' : 'desktop'
+        message: 'Connection test successful!'
       }
 
       if (isApp) {
@@ -88,7 +87,7 @@ export default function SyncModal({ isOpen, onClose }) {
         markChanged('gd_test_notification', { testNotification: payload })
         await sync()
       } else if (desktop) {
-        // Desktop: POST to local server with source=desktop so server doesn't callback to self
+        // Desktop: POST directly to local server
         await fetch('http://localhost:3050/api/state', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
