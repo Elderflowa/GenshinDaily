@@ -47,8 +47,8 @@ export function startServer({ port, dist, dataFile, onTestNotification }) {
           if (!key.startsWith('gd_') || typeof entry?.t !== 'number') continue
           if (entry.t > (state[key]?.t ?? 0)) { state[key] = { v: entry.v, t: entry.t }; changed = true }
 
-          // Check for test notification from phone
-          if (key === 'gd_test_notification' && entry.v && typeof entry.v === 'object' && entry.v.testNotification) {
+          // Check for test notification from phone (skip if from desktop to avoid self-trigger)
+          if (key === 'gd_test_notification' && entry.v && typeof entry.v === 'object' && entry.v.testNotification && entry.v.testNotification.source !== 'desktop') {
             onTestNotification?.(entry.v.testNotification)
           }
         }

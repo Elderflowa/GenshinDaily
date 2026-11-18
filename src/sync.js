@@ -76,6 +76,15 @@ export async function sync() {
     if (Object.keys(push).length) {
       await fetch(`${base}/api/state`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(push) })
     }
+    // Dispatch gd-sync with testNotification payload if present
+    for (const key of changed) {
+      if (key === 'gd_test_notification') {
+        const val = read(key, null)
+        if (val?.testNotification) {
+          window.dispatchEvent(new CustomEvent('gd-sync', { detail: [key, { testNotification: val.testNotification }] }))
+        }
+      }
+    }
     if (changed.length) window.dispatchEvent(new CustomEvent('gd-sync', { detail: changed }))
     setStatus(true)
   } catch {
