@@ -32,6 +32,8 @@ jobs:
     name: Build iOS IPA
     uses: ./.github/workflows/build-ipa.yml
     secrets: inherit
+    with:
+      version: ${{ github.event.inputs.tag }}
 
   create-release:
     name: Create Release
