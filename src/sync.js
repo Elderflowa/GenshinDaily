@@ -32,11 +32,18 @@ function setStatus(ok) {
 }
 
 let timer
-export function markChanged(key) {
+export function markChanged(key, value) {
   if (!isSynced(key)) return
-  write(META, { ...read(META, {}), [key]: Date.now() })
+  const meta = read(META, {})
+  meta[key] = value ?? Date.now()
+  write(META, meta)
   clearTimeout(timer)
   timer = setTimeout(sync, 400)
+  if (value && typeof value === 'object' && value.testNotification) {
+    window.dispatchEvent(new CustomEvent('gd-sync', { detail: [key, { testNotification: value }] }))
+  } else {
+    window.dispatchEvent(new CustomEvent('gd-sync', { detail: [key] }))
+  }
 }
 
 let busy = false

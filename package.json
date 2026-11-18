@@ -14,7 +14,6 @@
     "@capacitor/core": "^7.6.10",
     "@capacitor/ios": "^7.6.10",
     "@vitejs/plugin-react": "^4.3.4",
-    "electron": "^33.2.1",
     "electron-builder": "^25.1.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -46,5 +45,11 @@
       "perMachine": false,
       "artifactName": "TravelersGuide-Setup.${ext}"
     }
+  },
+  "allowScripts": {
+    "electron@33.4.11": true
+  },
+  "dependencies": {
+    "electron": "^33.4.11"
   }
 }

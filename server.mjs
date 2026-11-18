@@ -16,7 +16,7 @@ const cors = {
   'Access-Control-Allow-Headers': 'Content-Type',
 }
 
-export function startServer({ port, dist, dataFile }) {
+export function startServer({ port, dist, dataFile, onTestNotification }) {
   // { key: { v: value, t: timestamp } } - the newest timestamp per key wins.
   let state = {}
   try { state = JSON.parse(fs.readFileSync(dataFile, 'utf8')) } catch { /* first run */ }
@@ -42,9 +42,15 @@ export function startServer({ port, dist, dataFile }) {
     req.on('end', () => {
       try {
         let changed = false
-        for (const [key, entry] of Object.entries(JSON.parse(body))) {
+        const incoming = JSON.parse(body)
+        for (const [key, entry] of Object.entries(incoming)) {
           if (!key.startsWith('gd_') || typeof entry?.t !== 'number') continue
           if (entry.t > (state[key]?.t ?? 0)) { state[key] = { v: entry.v, t: entry.t }; changed = true }
+
+          // Check for test notification from phone
+          if (key === 'gd_test_notification' && entry.v && typeof entry.v === 'object' && entry.v.testNotification) {
+            onTestNotification?.(entry.v.testNotification)
+          }
         }
         if (changed) persist()
         res.writeHead(204, cors); res.end()

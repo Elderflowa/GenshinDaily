@@ -56,13 +56,27 @@ ipcMain.handle('autostart:set', async (_e, on) => {
   return autoStart()
 })
 
+// Handle test notification from phone -> send to renderer
+ipcMain.on('test-notification:send', (_e, payload) => {
+  if (win && !win.isDestroyed()) {
+    win.webContents.send('test-notification:receive', payload)
+  }
+})
+
 app.whenReady().then(async () => {
   try {
     const { startServer } = await import(pathToFileURL(path.join(__dirname, '..', 'server.mjs')).href)
+    const dataFile = path.join(app.getPath('userData'), 'state.json')
     await startServer({
       port: PORT,
       dist: path.join(__dirname, '..', 'dist'),
-      dataFile: path.join(app.getPath('userData'), 'state.json'),
+      dataFile,
+      onTestNotification: (payload) => {
+        // Forward test notification from phone to renderer via IPC
+        if (win && !win.isDestroyed()) {
+          win.webContents.send('test-notification:receive', payload)
+        }
+      },
     })
   } catch (e) {
     dialog.showErrorBox("Traveler's Guide", `Could not start on port ${PORT}. Is another copy (or Docker) already using it?\n\n${e.message}`)
