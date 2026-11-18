@@ -25,6 +25,8 @@ jobs:
     name: Build Windows
     uses: ./.github/workflows/build-windows.yml
     secrets: inherit
+    with:
+      version: ${{ github.event.inputs.tag }}
 
   build-ipa:
     name: Build iOS IPA
